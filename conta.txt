@@ -1,0 +1,55 @@
+print("Bem-vindo(a), \n o que deseja fazer? \n"
+      "1. Extrato \n"
+      "2. Depósito \n"
+      "3. Saque")
+
+opcao = input("Escolha uma das opções acima (Digite o número correspondente): ")
+saldo = 0
+saques_realizados = 0
+limite_saque_diario = 500
+max_saques_diarios = 3
+extrato = []
+
+while True:
+    if opcao == "1":
+        print("Extrato:")
+        if extrato:
+            for transacao in extrato:
+                print(transacao)
+        else:
+            print("Nenhuma transação realizada.")
+        print(f"Saldo atual: R${saldo:.2f}")
+
+    elif opcao == "2":
+        valor_deposito = float(input("Digite o valor do depósito: R$"))
+        if valor_deposito > 0:
+            saldo += valor_deposito
+            extrato.append(f"Depósito: R${valor_deposito:.2f}")
+            print(f"Depósito de R${valor_deposito:.2f} realizado com sucesso.")
+        else:
+            print("O valor do depósito deve ser positivo.")
+
+    elif opcao == "3":
+        if saques_realizados < max_saques_diarios:
+            valor_saque = float(input("Digite o valor do saque: R$"))
+            if valor_saque > 0 and valor_saque <= limite_saque_diario:
+                if saldo >= valor_saque:
+                    saldo -= valor_saque
+                    extrato.append(f"Saque: R${valor_saque:.2f}")
+                    saques_realizados += 1
+                    print(f"Saque de R${valor_saque:.2f} realizado com sucesso.")
+                else:
+                    print("Não é possível sacar por falta de saldo.")
+            else:
+                print("O valor do saque deve ser menor ou igual ao limite diário de R$500.")
+        else:
+            print("Você atingiu o limite máximo de saques diários.")
+
+    else:
+        print("Opção inválida. Escolha 1 para Extrato, 2 para Depósito ou 3 para Saque.")
+
+    if saques_realizados == max_saques_diarios:
+        print("Você atingiu o limite máximo de saques diários. Não é possível realizar mais saques hoje.")
+        break
+
+    opcao = input("\nEscolha uma das opções acima (Digite o número correspondente): ")
